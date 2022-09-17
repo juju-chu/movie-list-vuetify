@@ -9,7 +9,7 @@
                     <v-col cols="12" sm="3">
                         <v-text-field
                             label="請輸入電影名稱"
-                            v-model="name"
+                            v-model="keyword"
                             required
                         ></v-text-field>
                     </v-col>
@@ -17,6 +17,7 @@
                         class="mr-4"
                         :disabled="!valid"
                         color="info"
+                        @click="handleSearch"
                     >
                         Search
                     </v-btn>
@@ -27,17 +28,34 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { API_I, API_KEY, API_URL } from '../common/constants'
+
 export default {
     name: 'SearchBar',
     data() {
         return {
             valid: false,
-            name: '',
+            keyword: '',
+            movieList: [],
+        }
+    },
+    methods: {
+        handleSearch() {
+            this.fetchMovies()
+        },
+        fetchMovies() {
+            axios.get(`${API_URL}/?i=${API_I}&apikey=${API_KEY}&s=${this.keyword.trim()}`).
+                then(response => {
+                    this.movieList = response.data.Search
+                }).catch(error => {
+                    console.log(error)
+                })
         }
     },
     watch: {
-        name() {
-            this.valid = this.name.trim() !== '';
+        keyword() {
+            this.valid = this.keyword.trim() !== ''
         }
     }
 }
