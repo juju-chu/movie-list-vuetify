@@ -2,6 +2,7 @@
     <v-app>
         <v-main>
             <SearchBar @fetch-movies="fetchMovies"/>
+            <DataTable :movieList="movieList"/>
         </v-main>
     </v-app>
 </template>
@@ -10,12 +11,14 @@
 import axios from 'axios'
 import { API_I, API_KEY, API_URL } from './common/constants'
 import SearchBar from './components/SearchBar'
+import DataTable from './components/DataTable'
 
 export default {
     name: 'App',
     
     components: {
         SearchBar,
+        DataTable,
     },
     data() {
         return {
