@@ -28,30 +28,18 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { API_I, API_KEY, API_URL } from '../common/constants'
-
 export default {
     name: 'SearchBar',
     data() {
         return {
             valid: false,
             keyword: '',
-            movieList: [],
         }
     },
     methods: {
         handleSearch() {
-            this.fetchMovies()
+            this.$emit('fetch-movies', this.keyword)
         },
-        fetchMovies() {
-            axios.get(`${API_URL}/?i=${API_I}&apikey=${API_KEY}&s=${this.keyword.trim()}`).
-                then(response => {
-                    this.movieList = response.data.Search
-                }).catch(error => {
-                    console.log(error)
-                })
-        }
     },
     watch: {
         keyword() {
