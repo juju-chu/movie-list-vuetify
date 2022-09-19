@@ -12,12 +12,7 @@
                     <td>{{row.item.type}}</td>
                     <td>{{row.item.year}}</td>
                     <td>
-                        <v-btn
-                            class="mx-2"
-                            @click="onButtonClick(row.item)"
-                        >
-                            詳細資料
-                        </v-btn>
+                        <DetailDialog :id="row.item.imdbID" />
                     </td>
                 </tr>
             </template>
@@ -26,8 +21,13 @@
 </template>
 
 <script>
+import DetailDialog from './DetailDialog.vue'
+
 export default {
     name: 'DataTable',
+    components: {
+        DetailDialog,
+    },
     props: {
         movieList: {
             type: Array,
@@ -43,12 +43,6 @@ export default {
                 { text: '', value: '' },
             ],
             movies: [],
-        }
-    },
-    methods: {
-        onButtonClick(item) {
-            // TODO: 點擊彈出 Pop up 顯示該電影的詳細資料
-            console.log('click on ' + item.imdbID)
         }
     },
     watch: {
