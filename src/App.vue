@@ -2,7 +2,10 @@
     <v-app>
         <v-main>
             <SearchBar @fetch-movies="fetchMovies"/>
-            <DataTable :movieList="movieList"/>
+            <DataTable
+                v-if="isFindMovies"
+                :movieList="movieList"
+            />
         </v-main>
     </v-app>
 </template>
@@ -22,6 +25,7 @@ export default {
     data() {
         return {
             movieList: [],
+            isFindMovies: false,
         }
     },
     methods: {
@@ -29,6 +33,7 @@ export default {
             axios.get(`${API_URL}/?apikey=${API_KEY}&s=${keyword.trim()}`).
                 then(response => {
                     this.movieList = response.data.Search
+                    this.isFindMovies = true
                 }).catch(error => {
                     console.log(error)
                 })

@@ -3,14 +3,14 @@
         <v-data-table
             class="elevation-1"
             :headers="headers"
-            :items="movies"
+            :items="movieList"
             :items-per-page="10"
         >
             <template v-slot:item="row">
                 <tr>
-                    <td>{{row.item.name}}</td>
-                    <td>{{row.item.type}}</td>
-                    <td>{{row.item.year}}</td>
+                    <td>{{row.item.Title}}</td>
+                    <td>{{row.item.Type}}</td>
+                    <td>{{row.item.Year}}</td>
                     <td>
                         <DetailDialog :id="row.item.imdbID" />
                     </td>
@@ -42,18 +42,7 @@ export default {
                 { text: '年份', value: 'year' },
                 { text: '', value: '' },
             ],
-            movies: [],
         }
     },
-    watch: {
-        movieList() {
-            this.movies = this.movieList.map((movie) => ({
-                imdbID: movie.imdbID, 
-                name: movie.Title,
-                type: movie.Type,
-                year: movie.Year,
-            }))
-        }
-    }
 }
 </script>
