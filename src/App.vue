@@ -9,13 +9,12 @@
 
 <script>
 import axios from 'axios'
-import { API_I, API_KEY, API_URL } from './common/constants'
+import { API_KEY, API_URL } from './common/constants'
 import SearchBar from './components/SearchBar'
 import DataTable from './components/DataTable'
 
 export default {
     name: 'App',
-    
     components: {
         SearchBar,
         DataTable,
@@ -27,7 +26,7 @@ export default {
     },
     methods: {
         fetchMovies(keyword) {
-            axios.get(`${API_URL}/?i=${API_I}&apikey=${API_KEY}&s=${keyword.trim()}`).
+            axios.get(`${API_URL}/?apikey=${API_KEY}&s=${keyword.trim()}`).
                 then(response => {
                     this.movieList = response.data.Search
                 }).catch(error => {
