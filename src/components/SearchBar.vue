@@ -11,6 +11,9 @@
                             label="請輸入電影名稱"
                             v-model="keyword"
                             required
+                            outlined
+                            dense
+                            hide-details
                         ></v-text-field>
                     </v-col>
                     <v-btn
