@@ -4,7 +4,7 @@
             class="elevation-1"
             :headers="headers"
             :items="movieList"
-            :items-per-page="10"
+            hide-default-footer
         >
             <template v-slot:item="row">
                 <tr>
@@ -46,3 +46,9 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+tr:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+</style>
