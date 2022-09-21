@@ -6,13 +6,13 @@
             </template>
             <template v-slot:default="dialog">
                 <v-card>
-                    <v-toolbar class="text-h4" color="primary" dark>{{ title }}</v-toolbar>
+                    <v-toolbar class="text-h4" color="primary" dark>{{ details.title }}</v-toolbar>
                     <v-card-text>
                         <div class="text-body-1 pa-12">
                             <ul>
-                                <li>演員: {{ actors }}</li>
-                                <li>類型: {{ type }}</li>
-                                <li>故事內容簡介: {{ plot }}</li>
+                                <li>演員: {{ details.actors }}</li>
+                                <li>類型: {{ details.type }}</li>
+                                <li>故事內容簡介: {{ details.plot }}</li>
                             </ul>
                         </div>
                     </v-card-text>
@@ -40,10 +40,7 @@ export default {
     data() {
         return {
             vOn: false,
-            title: '',
-            actors: '',
-            type: '',
-            plot: '',
+            details: {},
         }
     },
     methods: {
@@ -51,10 +48,12 @@ export default {
             axios.get(`${API_URL}/?apikey=${API_KEY}&i=${id}`).
                 then(response => {
                     this.movieDetail = response.data
-                    this.title = this.movieDetail.Title
-                    this.actors = this.movieDetail.Actors
-                    this.type = this.movieDetail.Type
-                    this.plot = this.movieDetail.Plot
+                    this.details = {
+                        title: this.movieDetail.Title,
+                        actors: this.movieDetail.Actors,
+                        type: this.movieDetail.Type,
+                        plot: this.movieDetail.Plot,
+                    }
                 }).catch(error => {
                     console.log(error)
                 })
