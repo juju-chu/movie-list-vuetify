@@ -8,11 +8,11 @@
         >
             <template v-slot:item="row">
                 <tr>
-                    <td>{{row.item.Title}}</td>
-                    <td>{{row.item.Type}}</td>
-                    <td>{{row.item.Year}}</td>
+                    <td>{{row.item.title}}</td>
+                    <td>{{row.item.type}}</td>
+                    <td>{{row.item.year}}</td>
                     <td>
-                        <DetailDialog :id="row.item.imdbID" />
+                        <DetailDialog :id="row.item.id" />
                     </td>
                 </tr>
             </template>
