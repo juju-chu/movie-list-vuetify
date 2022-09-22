@@ -2,22 +2,42 @@
     <v-col cols="auto">
         <v-dialog transition="dialog-top-transition" max-width="600">
             <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" v-bind="attrs" v-on="on" @click="handleClick">詳細資料</v-btn>
+                <v-btn
+                    class="white--text"
+                    color="grey darken-1"
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="handleClick"
+                >
+                    詳細資料
+                </v-btn>
             </template>
             <template v-slot:default="dialog">
                 <v-card>
-                    <v-toolbar class="text-h4" color="primary" dark>{{ details.title }}</v-toolbar>
+                    <v-toolbar
+                        class="text-h5"
+                        height="100%"
+                        color="primary"
+                        dark
+                    >
+                        {{ details.title }}
+                    </v-toolbar>
                     <v-card-text>
                         <div class="text-body-1 pa-12">
                             <ul>
-                                <li>演員: {{ details.actors }}</li>
-                                <li>類型: {{ details.type }}</li>
-                                <li>故事內容簡介: {{ details.plot }}</li>
+                                <li><span class="font-weight-bold">演員:</span> {{ details.actors }}</li>
+                                <li><span class="font-weight-bold">類型:</span> {{ details.type }}</li>
+                                <li><span class="font-weight-bold">故事內容簡介:</span> {{ details.plot }}</li>
                             </ul>
                         </div>
                     </v-card-text>
                     <v-card-actions class="justify-end">
-                        <v-btn text @click="dialog.value = false">Close</v-btn>
+                        <v-btn
+                            text
+                            @click="dialog.value = false"
+                        >
+                            Close
+                        </v-btn>
                     </v-card-actions>
                 </v-card>
             </template>
