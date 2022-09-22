@@ -13,7 +13,8 @@
                 </v-btn>
             </template>
             <template v-slot:default="dialog">
-                <v-card>
+                <LoadIng v-if="isLoading" />
+                <v-card v-else>
                     <v-toolbar
                         class="text-h5"
                         height="100%"
@@ -48,9 +49,13 @@
 <script>
 import axios from 'axios'
 import { API_KEY, API_URL } from '../common/constants'
+import LoadIng from './LoadIng'
 
 export default {
     name: 'DetailDialog',
+    components: {
+        LoadIng,
+    },
     props: {
         id: {
             type: String,
@@ -61,10 +66,12 @@ export default {
         return {
             vOn: false,
             details: {},
+            isLoading: false,
         }
     },
     methods: {
         fetchMovieDetail(id) {
+            this.isLoading = true
             axios.get(`${API_URL}/?apikey=${API_KEY}&i=${id}`).
                 then(response => {
                     this.movieDetail = response.data
@@ -76,6 +83,8 @@ export default {
                     }
                 }).catch(error => {
                     console.log(error)
+                }).finally(() => {
+                    this.isLoading = false
                 })
         },
         handleClick() {

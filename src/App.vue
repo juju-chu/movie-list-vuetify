@@ -6,6 +6,7 @@
                 v-if="isFindMovies"
                 :movieList="movieList"
             />
+            <LoadIng v-if="isLoading"/>
             <PagiNation
                 v-if="isFindMovies"
                 :pageLength="pageLength"
@@ -20,6 +21,7 @@ import axios from 'axios'
 import { API_KEY, API_URL } from './common/constants'
 import SearchBar from './components/SearchBar'
 import DataTable from './components/DataTable'
+import LoadIng from './components/LoadIng'
 import PagiNation from './components/PagiNation'
 
 export default {
@@ -27,6 +29,7 @@ export default {
     components: {
         SearchBar,
         DataTable,
+        LoadIng,
         PagiNation,
     },
     data() {
@@ -34,12 +37,14 @@ export default {
             allMovies: [],
             movieList: [],
             isFindMovies: false,
+            isLoading: false,
             perPage: 10,
             pageLength: 0,
         }
     },
     methods: {
         fetchMovies(keyword) {
+            this.isLoading = true
             axios.get(`${API_URL}/?apikey=${API_KEY}&s=${keyword.trim()}`).
                 then(response => {
                     const movies = response.data.Search
@@ -55,6 +60,8 @@ export default {
                     this.updatePage(1)
                 }).catch(error => {
                     console.log(error)
+                }).finally(() => {
+                    this.isLoading = false
                 })
         },
         updatePage(pageIndex) {
