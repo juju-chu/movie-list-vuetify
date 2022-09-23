@@ -39,6 +39,7 @@ export default {
             movieList: [],
             type: '',
             keyword: '',
+            year: '',
             isFindMovies: false,
             isLoading: false,
             page: 1,
@@ -47,9 +48,11 @@ export default {
         }
     },
     methods: {
-        handleSearch(value) {
-            this.keyword = value[0].trim()
-            this.type = value[1] || ''
+        handleSearch(data) {
+            const { keyword, year, type } = data
+            this.keyword = keyword
+            this.year = year
+            this.type = type
             this.page = 1
 
             this.fetchMovies()
@@ -57,7 +60,7 @@ export default {
         fetchMovies() {
             this.isLoading = true
             
-            axios.get(`${API_URL}/?apikey=${API_KEY}&s=${this.keyword}&type=${this.type}&page=${this.page}`).
+            axios.get(`${API_URL}/?apikey=${API_KEY}&s=${this.keyword}&y=${this.year}&type=${this.type}&page=${this.page}`).
                 then(response => {
                     this.pageLength = Math.ceil(response.data.totalResults / this.perPage)
                     const movies = response.data.Search

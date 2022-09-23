@@ -16,6 +16,15 @@
                             hide-details
                         ></v-text-field>
                     </v-col>
+                    <v-col cols="2">
+                        <v-text-field
+                            label="年份（非必填）"
+                            v-model="year"
+                            outlined
+                            dense
+                            hide-details
+                        ></v-text-field>
+                    </v-col>
                     <v-col
                         class="d-flex"
                         cols="12"
@@ -51,6 +60,7 @@ export default {
         return {
             valid: false,
             keyword: '',
+            year: '',
             typesTable: {
                 所有類別: '',
                 電影: 'movie', 
@@ -66,7 +76,12 @@ export default {
     },
     methods: {
         handleSearch() {
-            this.$emit('handle-search', [this.keyword, this.typesTable[this.selected]])
+            const data = {
+                keyword: this.keyword,
+                year: this.year,
+                type: this.typesTable[this.selected] || ''
+            }
+            this.$emit('handle-search', data)
         },
     },
     watch: {
