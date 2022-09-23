@@ -4,6 +4,7 @@
 			class="pagination mb-2"
 			v-model="page"
 			:length="pageLength"
+            :total-visible="7"
 			@input="updatePage"
 		></v-pagination>
     </div>
