@@ -1,4 +1,6 @@
-# movie-list-vuetify
+# movie-list-vuetify 電影資料庫
+
+可透過名稱（ex: test）搭配類型做搜尋。
 
 ## Project setup
 ```
