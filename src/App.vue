@@ -36,6 +36,7 @@ export default {
         return {
             allMovies: [],
             movieList: [],
+            type: '',
             isFindMovies: false,
             isLoading: false,
             perPage: 10,
@@ -43,9 +44,12 @@ export default {
         }
     },
     methods: {
-        fetchMovies(keyword) {
+        fetchMovies(value) {
+            const keyword = value[0].trim()
+            this.type = value[1] || ''
             this.isLoading = true
-            axios.get(`${API_URL}/?apikey=${API_KEY}&s=${keyword.trim()}`).
+            
+            axios.get(`${API_URL}/?apikey=${API_KEY}&s=${keyword}`).
                 then(response => {
                     const movies = response.data.Search
                     this.allMovies = movies.map((movie) => ({
@@ -55,6 +59,8 @@ export default {
                         id: movie.imdbID,
                     }))
 
+                    this.allMovies = this.typeFilter(this.allMovies)
+
                     this.isFindMovies = true
                     this.pageLength = Math.ceil(this.allMovies.length / this.perPage)
                     this.updatePage(1)
@@ -63,6 +69,12 @@ export default {
                 }).finally(() => {
                     this.isLoading = false
                 })
+        },
+        typeFilter(movies) {
+            if (this.type === '') {
+                return movies
+            }
+            return movies.filter((movie) => movie.type === this.type)
         },
         updatePage(pageIndex) {
             this.movieList = this.allMovies.slice((pageIndex - 1) * this.perPage, pageIndex * this.perPage)
