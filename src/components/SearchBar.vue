@@ -55,6 +55,7 @@ export default {
                 所有類別: '',
                 電影: 'movie', 
                 影集: 'series',
+                遊戲: 'game',
             },
             selected: '',
             types: [],
