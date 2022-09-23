@@ -13,6 +13,10 @@
 export default {
     name: 'PagiNation',
     props: {
+        initPage: {
+            type: Number,
+            required: true,
+        },
         pageLength: {
             type: Number,
             required: true,
@@ -26,6 +30,11 @@ export default {
     methods: {
         updatePage(pageIndex) {
             this.$emit('update-page', pageIndex)
+        }
+    },
+    watch: {
+        initPage() {
+            this.page = this.initPage
         }
     }
 }

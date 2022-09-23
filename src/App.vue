@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-main>
-            <SearchBar @fetch-movies="fetchMovies"/>
+            <SearchBar @handle-search="handleSearch"/>
             <DataTable
                 v-if="isFindMovies"
                 :movieList="movieList"
@@ -9,6 +9,7 @@
             <LoadIng v-if="isLoading"/>
             <PagiNation
                 v-if="isFindMovies"
+                :initPage="page"
                 :pageLength="pageLength"
                 @update-page="updatePage"
             />
@@ -37,47 +38,47 @@ export default {
             allMovies: [],
             movieList: [],
             type: '',
+            keyword: '',
             isFindMovies: false,
             isLoading: false,
+            page: 1,
             perPage: 10,
             pageLength: 0,
         }
     },
     methods: {
-        fetchMovies(value) {
-            const keyword = value[0].trim()
+        handleSearch(value) {
+            this.keyword = value[0].trim()
             this.type = value[1] || ''
+            this.page = 1
+
+            this.fetchMovies()
+        },
+        fetchMovies() {
             this.isLoading = true
             
-            axios.get(`${API_URL}/?apikey=${API_KEY}&s=${keyword}`).
+            axios.get(`${API_URL}/?apikey=${API_KEY}&s=${this.keyword}&type=${this.type}&page=${this.page}`).
                 then(response => {
+                    this.pageLength = Math.ceil(response.data.totalResults / this.perPage)
                     const movies = response.data.Search
-                    this.allMovies = movies.map((movie) => ({
+
+                    this.movieList = movies.map((movie) => ({
                         title: movie.Title,
                         type: movie.Type,
                         year: movie.Year,
                         id: movie.imdbID,
                     }))
 
-                    this.allMovies = this.typeFilter(this.allMovies)
-
                     this.isFindMovies = true
-                    this.pageLength = Math.ceil(this.allMovies.length / this.perPage)
-                    this.updatePage(1)
                 }).catch(error => {
                     console.log(error)
                 }).finally(() => {
                     this.isLoading = false
                 })
         },
-        typeFilter(movies) {
-            if (this.type === '') {
-                return movies
-            }
-            return movies.filter((movie) => movie.type === this.type)
-        },
         updatePage(pageIndex) {
-            this.movieList = this.allMovies.slice((pageIndex - 1) * this.perPage, pageIndex * this.perPage)
+            this.page = pageIndex
+            this.fetchMovies()
         },
     },
 }

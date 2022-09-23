@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         handleSearch() {
-            this.$emit('fetch-movies', [this.keyword, this.typesTable[this.selected]])
+            this.$emit('handle-search', [this.keyword, this.typesTable[this.selected]])
         },
     },
     watch: {
