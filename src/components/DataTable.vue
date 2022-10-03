@@ -6,15 +6,8 @@
             :items="movieList"
             hide-default-footer
         >
-            <template v-slot:item="row">
-                <tr>
-                    <td>{{row.item.title}}</td>
-                    <td>{{row.item.type}}</td>
-                    <td>{{row.item.year}}</td>
-                    <td>
-                        <DetailDialog :id="row.item.id" />
-                    </td>
-                </tr>
+            <template v-slot:[`item.action`]="{ item }">
+                <DetailDialog :id="item.id" />
             </template>
         </v-data-table>
     </v-container>
@@ -37,10 +30,10 @@ export default {
     data() {
         return {
             headers: [
-                { text: '名稱', value: 'name' },
+                { text: '名稱', value: 'title' },
                 { text: '類型', value: 'type' },
                 { text: '年份', value: 'year' },
-                { text: '', value: '' },
+                { text: '', value: 'action' },
             ],
         }
     },
